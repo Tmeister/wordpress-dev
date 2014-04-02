@@ -465,6 +465,9 @@ function wp_print_media_templates() {
 						if ( size ) { #>
 							<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 'full' ); ?>>
 								<?php echo esc_html( $name ); ?> &ndash; {{ size.width }} &times; {{ size.height }}
+								<# if( 'undefined' !== typeof size.filesize ) { #>
+									( {{size.filesize}} )
+								<# } #>
 							</option>
 						<# } #>
 					<?php endforeach; ?>

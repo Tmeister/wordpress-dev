@@ -2295,6 +2295,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 					'width'       => $downsize[1],
 					'url'         => $downsize[0],
 					'orientation' => $downsize[2] > $downsize[1] ? 'portrait' : 'landscape',
+					//TODO
 				);
 			} elseif ( isset( $meta['sizes'][ $size ] ) ) {
 				if ( ! isset( $base_url ) )
@@ -2307,11 +2308,17 @@ function wp_prepare_attachment_for_js( $attachment ) {
 				// Thumbnail, medium, and full sizes are also checked against the site's height/width options.
 				list( $width, $height ) = image_constrain_size_for_editor( $size_meta['width'], $size_meta['height'], $size, 'edit' );
 
+				// Get the intermediate size path to get the according filesize.
+				$intermediate = image_get_intermediate_size( $attachment->ID, strtolower($label) );
+				$uploads = wp_upload_dir();
+				$filesize = size_format( filesize ( $uploads['basedir'] . '/' .$intermediate['path'] ) );
+
 				$sizes[ $size ] = array(
 					'height'      => $height,
 					'width'       => $width,
 					'url'         => $base_url . $size_meta['file'],
 					'orientation' => $height > $width ? 'portrait' : 'landscape',
+					'filesize'    => $filesize
 				);
 			}
 		}
@@ -2322,6 +2329,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 			$sizes['full']['height'] = $meta['height'];
 			$sizes['full']['width'] = $meta['width'];
 			$sizes['full']['orientation'] = $meta['height'] > $meta['width'] ? 'portrait' : 'landscape';
+			$sizes['full']['filesize'] = size_format( filesize ( get_attached_file($attachment->ID) ) );
 		}
 
 		$response = array_merge( $response, array( 'sizes' => $sizes ), $sizes['full'] );
