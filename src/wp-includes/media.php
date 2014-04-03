@@ -2295,7 +2295,6 @@ function wp_prepare_attachment_for_js( $attachment ) {
 					'width'       => $downsize[1],
 					'url'         => $downsize[0],
 					'orientation' => $downsize[2] > $downsize[1] ? 'portrait' : 'landscape',
-					//TODO
 				);
 			} elseif ( isset( $meta['sizes'][ $size ] ) ) {
 				if ( ! isset( $base_url ) )
