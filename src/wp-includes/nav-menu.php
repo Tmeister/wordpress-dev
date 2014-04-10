@@ -164,7 +164,7 @@ function is_nav_menu_item( $menu_item_id = 0 ) {
  * @since 3.0.0
  *
  * @param string $menu_name Menu Name
- * @return mixed Menu object on success|WP_Error on failure
+ * @return int|WP_Error object The menu's ID or WP_Error object.
  */
 function wp_create_nav_menu( $menu_name ) {
 	return wp_update_nav_menu_object( 0, array( 'menu-name' => $menu_name ) );
